@@ -1,0 +1,8 @@
+import type { FinanceState, Investment, Transaction } from './models'
+export const money=(value:number,currency='PLN',locale='pl-PL')=>new Intl.NumberFormat(locale,{style:'currency',currency}).format(value)
+export const financeMetrics=(state:FinanceState)=>{const income=state.transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);const expenses=state.transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);const balance=income-expenses;const savingsRate=income?Math.max(0,balance/income*100):0;const budgetUsed=state.monthlyBudget?expenses/state.monthlyBudget*100:0;const health=Math.round(Math.max(0,Math.min(100,40+savingsRate*.8-Math.max(0,budgetUsed-100)*.3)));return{income,expenses,balance,savingsRate,budgetUsed,health}}
+export const categoryTotals=(transactions:Transaction[])=>Object.entries(transactions.filter(t=>t.type==='expense').reduce<Record<string,number>>((a,t)=>({...a,[t.category]:(a[t.category]??0)+t.amount}),{})).sort((a,b)=>b[1]-a[1])
+export const monthlyCashflow=(transactions:Transaction[])=>Object.entries(transactions.reduce<Record<string,number>>((a,t)=>({...a,[t.date.slice(0,7)]:(a[t.date.slice(0,7)]??0)+(t.type==='income'?t.amount:-t.amount)}),{})).sort(([a],[b])=>a.localeCompare(b))
+export const portfolioValue=(items:Investment[])=>items.reduce((s,i)=>s+i.quantity*i.currentPrice,0)
+export const portfolioCost=(items:Investment[])=>items.reduce((s,i)=>s+i.quantity*i.buyPrice,0)
+export const passwordStrength=(value:string)=>{let score=0;if(value.length>=12)score++;if(value.length>=16)score++;if(/[A-Z]/.test(value))score++;if(/[a-z]/.test(value))score++;if(/\d/.test(value))score++;if(/[^A-Za-z0-9]/.test(value))score++;return score<=2?'weak':score<=4?'medium':'strong'}

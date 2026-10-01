@@ -1,0 +1,2 @@
+import { expect,test } from '@playwright/test'
+test('navigates between core modules',async({page})=>{await page.goto('/');await expect(page.getByRole('heading',{name:/Mateusz/})).toBeVisible();await page.getByRole('link',{name:'Finanse'}).first().click();await expect(page.getByRole('heading',{name:'Finanse'})).toBeVisible();await page.getByRole('link',{name:'Zadania'}).first().click();await expect(page.getByRole('heading',{name:'Zadania'})).toBeVisible()})

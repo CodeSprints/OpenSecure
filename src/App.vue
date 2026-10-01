@@ -1,0 +1,2 @@
+<script setup lang="ts">import { onMounted } from 'vue';import { useAppStore } from '@/stores/app';import AppShell from '@/layouts/AppShell.vue';const store=useAppStore();onMounted(store.initialize)</script>
+<template><AppShell v-if="store.ready"/><div v-else class="grid min-h-screen place-items-center" role="status"><span class="loader"/><span class="sr-only">Ładowanie aplikacji</span></div></template>

@@ -1,0 +1,5 @@
+import { describe,expect,it } from 'vitest'
+import { categoryTotals,financeMetrics,passwordStrength,portfolioValue } from '@/domain/finance'
+import type { FinanceState } from '@/domain/models'
+const state:FinanceState={monthlyBudget:1000,goals:[],investments:[],versions:[],transactions:[{id:'1',date:'2026-01-01',type:'income',account:'a',category:'salary',amount:2000,note:'',location:'',version:1,createdAt:'',updatedAt:''},{id:'2',date:'2026-01-02',type:'expense',account:'a',category:'food',amount:500,note:'',location:'',version:1,createdAt:'',updatedAt:''}]}
+describe('finance domain',()=>{it('calculates core metrics',()=>expect(financeMetrics(state)).toMatchObject({income:2000,expenses:500,balance:1500,budgetUsed:50}));it('groups expenses',()=>expect(categoryTotals(state.transactions)).toEqual([['food',500]]));it('values a portfolio',()=>expect(portfolioValue([{id:'1',symbol:'X',name:'X',quantity:2,buyPrice:5,currentPrice:8,purchaseDate:''}])).toBe(16));it('scores passwords',()=>{expect(passwordStrength('abc')).toBe('weak');expect(passwordStrength('Great-Password-2026!')).toBe('strong')})})

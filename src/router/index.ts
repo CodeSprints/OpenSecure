@@ -1,0 +1,3 @@
+import { createRouter,createWebHashHistory } from 'vue-router'
+const routes=[{path:'/',name:'dashboard',component:()=>import('@/views/DashboardView.vue')},{path:'/finance',name:'finance',component:()=>import('@/views/FinanceView.vue')},{path:'/tasks',name:'tasks',component:()=>import('@/views/TasksView.vue')},{path:'/vault',name:'vault',component:()=>import('@/views/VaultView.vue')},{path:'/settings',name:'settings',component:()=>import('@/views/SettingsView.vue')},{path:'/:pathMatch(.*)*',redirect:'/'}]
+export const router=createRouter({history:createWebHashHistory(),routes,scrollBehavior:()=>({top:0})})
